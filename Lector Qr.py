@@ -33,7 +33,7 @@ while True:
     ret_qr, decoded_info, points, _ = qrCode.detectAndDecodeMulti(frame)
     if ret_qr:
         for info, point in zip(decoded_info, points):
-            if info:
+            if info and cv2.waitKey(1) & 0xFF == ord('s'):
                 # Obtener la fecha y hora actual
                 tiempo = datetime.datetime.now()
                 
@@ -41,20 +41,20 @@ while True:
                 # Guardar los datos en la lista
                 notes.append([info, f"{tiempo.day}-{tiempo.month}-{tiempo.year}", 
                               f"{tiempo.hour}:{tiempo.minute}:{tiempo.second}"])
-                
-                # Escribir en el archivo CSV
-                with open(csv_path, 'a', newline='') as f:
-                    writer = csv.writer(f, delimiter=',')
-                    writer.writerows(notes)
-
-                # Limpiar la lista después de escribir
-                notes = []
 
                 # Dibujar el recuadro del QR en verde
                 frame = cv2.polylines(frame, [point.astype(int)], True, (0, 255, 0), 8)
             else:
                 frame = cv2.polylines(frame, [point.astype(int)], True, (0, 0, 255), 8)
 
+    if cv2.waitKey(1) & 0xFF == ord('a'):
+    # Escribir en el archivo CSV
+        with open(csv_path, 'a', newline='') as f:
+            writer = csv.writer(f, delimiter=',')
+            writer.writerows(notes)
+        print("Datos guardados en CSV")
+        notes = [["Registro de cajas", "Fecha", "Hora"]] #vaciar lista
+    
     # Mostrar el frame (eliminar esto si ya no es necesario)
     cv2.imshow('Lector de QR', frame)
 
