@@ -13,25 +13,25 @@ try:
 
 
     #imagenes
-    fondo = pygame.image.load("interfaz.jpg")
+    fondo = pygame.image.load("/home/Pato/Documents/proyecto/TareasMendezChavesBarrantes/Interfaz/interfaz.jpg")
     fondo = pygame.transform.smoothscale(fondo, (1000, 700))
-    boton_start = pygame.image.load("START.png").convert_alpha()
-    boton_stop = pygame.image.load("STOP.png").convert_alpha()
-    boton_CSV = pygame.image.load("CSV.png").convert_alpha()
-    Run_On = pygame.image.load("RUNNING-ON.png").convert_alpha()
-    Run_Off = pygame.image.load("RUNNING-OFF.png").convert_alpha()
-    Pause_On = pygame.image.load("PAUSE-ON.png").convert_alpha()
-    Pause_Off = pygame.image.load("PAUSE-OFF.png").convert_alpha()
-    grua = pygame.image.load("grua.png").convert_alpha()
-    medicos = pygame.image.load("medicos.png").convert_alpha()
-    bananos = pygame.image.load("banano.png").convert_alpha()
-    cafe = pygame.image.load("cafe.png").convert_alpha()
-    caja = pygame.image.load("Caja.png").convert_alpha()
+    boton_start = pygame.image.load("/home/Pato/Documents/proyecto/TareasMendezChavesBarrantes/Interfaz/START.png").convert_alpha()
+    boton_stop = pygame.image.load("/home/Pato/Documents/proyecto/TareasMendezChavesBarrantes/Interfaz/STOP.png").convert_alpha()
+    boton_CSV = pygame.image.load("/home/Pato/Documents/proyecto/TareasMendezChavesBarrantes/Interfaz/CSV.png").convert_alpha()
+    Run_On = pygame.image.load("/home/Pato/Documents/proyecto/TareasMendezChavesBarrantes/Interfaz/RUNNING-ON.png").convert_alpha()
+    Run_Off = pygame.image.load("/home/Pato/Documents/proyecto/TareasMendezChavesBarrantes/Interfaz/RUNNING-OFF.png").convert_alpha()
+    Pause_On = pygame.image.load("/home/Pato/Documents/proyecto/TareasMendezChavesBarrantes/Interfaz/PAUSE-ON.png").convert_alpha()
+    Pause_Off = pygame.image.load("/home/Pato/Documents/proyecto/TareasMendezChavesBarrantes/Interfaz/PAUSE-OFF.png").convert_alpha()
+    grua = pygame.image.load("/home/Pato/Documents/proyecto/TareasMendezChavesBarrantes/Interfaz/grua.png").convert_alpha()
+    medicos = pygame.image.load("/home/Pato/Documents/proyecto/TareasMendezChavesBarrantes/Interfaz/medicos.png").convert_alpha()
+    bananos = pygame.image.load("/home/Pato/Documents/proyecto/TareasMendezChavesBarrantes/Interfaz/banano.png").convert_alpha()
+    cafe = pygame.image.load("/home/Pato/Documents/proyecto/TareasMendezChavesBarrantes/Interfaz/cafe.png").convert_alpha()
+    caja = pygame.image.load("/home/Pato/Documents/proyecto/TareasMendezChavesBarrantes/Interfaz/Caja.png").convert_alpha()
 
     #Cliente SSH
     ssh_client = paramiko.SSHClient()
     ssh_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    ssh_client.connect(hostname="192.168.0.13", port=22, username="al.mendez", password="raspberry" )
+    ssh_client.connect(hostname="192.168.1.134", port=22, username="pato", password="pato" )
     #Cliente FTP
     ftp_client = ssh_client.open_sftp()
     #Clase boton
@@ -87,7 +87,6 @@ try:
 
     Signals = {
         "Ejecutar" : True,
-        "CSV" : False
     }
 
     def frenar():
