@@ -5,6 +5,8 @@ import pygame.transform
 from pygame.locals import *
 import paramiko
 import json
+import os
+from pathlib import Path
 
 pygame.init()
 try:
@@ -31,7 +33,7 @@ try:
     #Cliente SSH
     ssh_client = paramiko.SSHClient()
     ssh_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    ssh_client.connect(hostname="192.168.1.134", port=22, username="pato", password="pato" )
+    ssh_client.connect(hostname="192.168.1.134", port=22, username="pato", password="pato")
     #Cliente FTP
     ftp_client = ssh_client.open_sftp()
     #Clase boton
@@ -95,7 +97,7 @@ try:
         Running.Sprite = False
         Pause.Sprite = True
         Signals["Ejecutar"] = False
-        with ftp_client.file("/home/al.mendez/Desktop/Signals.json", "w") as file:
+        with ftp_client.file("/home/pato/Desktop/Signals.json", "w") as file:
             json_string = json.dumps(Signals)
             file.write(json_string)
     def ejecutar():
@@ -104,9 +106,18 @@ try:
         Running.Sprite = True
         Pause.Sprite = False
         Signals["Ejecutar"] = True
-        with ftp_client.file("/home/al.mendez/Desktop/Signals.json", "w") as file:
+        with ftp_client.file("/home/pato/Desktop/Signals.json", "w") as file:
             json_string = json.dumps(Signals)
             file.write(json_string)
+    def descargar_csv():
+        try:
+            ruta_remota = "/home/pato/Desktop/CSVproyecto.csv"
+            escritorio_local = os.path.join(str(Path.home()), "Desktop")  # Ruta al escritorio del usuario actual
+            ruta_local = os.path.join(escritorio_local, "CSVproyecto.csv")
+            ftp_client.get(ruta_remota, ruta_local)
+            print(f"Archivo CSV descargado exitosamente en: {ruta_local}")
+        except Exception as e:
+            print(f"Error al descargar el archivo CSV: {e}")
 
     #Instancias
     StartButton = Button(21, 544, boton_start, 0.3, False)
@@ -150,7 +161,7 @@ try:
         Cafe.dibujar(Pantalla)
         posicion = pygame.mouse.get_pos()
 
-        with ftp_client.file("/home/al.mendez/Desktop/Variables.json", "r") as file:
+        with ftp_client.file("/home/pato/Desktop/Variables.json", "r") as file:
             json_str = file.read()
             dic = json.loads(json_str)
             Cajas_Cafe = Cajas(int(dic["Bus"][0:3], 2), 420,320, caja)
@@ -177,7 +188,7 @@ try:
                                 frenar()
                     if(CSVButton.rect.collidepoint(posicion)):
                         if(pygame.mouse.get_pressed()[0] == 1):
-                            print("hacer CSV")
+                            descargar_csv()
                 else:
                     frenar()
             else:
@@ -189,8 +200,8 @@ try:
                 pygame.quit()
                 ssh_client.close()
                 ftp_client.close()
-except:
-    print("Error")
+except Exception as e:
+    print(f"Error: {e}")
 
 
     
